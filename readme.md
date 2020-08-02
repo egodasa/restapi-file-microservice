@@ -1,4 +1,4 @@
-# RestAPI Image Management as Microservice
+# RestAPI File Management as Microservice
 1. PHP as programming language
 1. Sqlite3 as database
 
