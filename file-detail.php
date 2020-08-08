@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 if($_SERVER['REQUEST_METHOD'] == "POST")
 {
 	// PERINTAH UNTUK MENGHAPUS GAMBAR YANG EXPIRED_AT TIDAK NULL ALIAS GAMBAR SEMENTARA
-	$data = $DB->get($_ENV['TABLE_NAME'], "*", array("id" => $_POST['id']));
+	$data = $DB->get($_CONFIG['TABLE_NAME'], "*", array("id" => $_POST['id']));
 
 	if($DB->error()[1] != null)
 	{
