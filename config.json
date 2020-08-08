@@ -13,7 +13,7 @@
 		{
 			"name": "another_file_upload",
 			"max_size": "1M",
-			"allowed_mimetype": ["image/png", "image/jpg"]
+			"allowed_mimetype": "image/png"
 		}
 	],
 	"ACTIVE_PERIOD_FILE": 1,
