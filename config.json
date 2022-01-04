@@ -1,12 +1,9 @@
 {
-	"DB_TYPE": "sqlite",
-	"DB_DATABASE": "./database/database.db",
-	"BASE_URL": "http://localhost/program_php/php71/restapi-gambar/",
 	"FILE_STORAGE": "files/",
 	"TABLE_NAME": "files",
 	"FORM_INPUT": [
 		{
-			"name": "_file_upload",
+			"name": "berkas_naik_pangkat",
 			"max_size": "1M",
 			"allowed_mimetype": ["image/png", "image/jpeg"]
 		},
