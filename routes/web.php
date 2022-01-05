@@ -114,22 +114,47 @@ $router->get('/delete/{id}', function (Request $request, $id) use ($router) {
 	return response()->json(ApiResponse::NotFound("Berkas tidak ditemukan!"));
 });
 
-$router->get('/download/{id}/{name}', function (Request $request, $id, $name) use ($router) {
+$router->get('/download/{id}[/{name}]', function (Request $request, $id, $name = null) use ($router) {
 	$data = DB::table('files')->select("*")->where("id", $id)->first();
 
 	if(!empty($data))
 	{
-		$file = "./files/".$data->name.".".$data->extension;
+		$file = "./files/".$data->id.".".$data->extension;
+
+		if(empty($name))
+		{
+			$name = $data->id;
+		}
 
 		if(file_exists($file))
 		{
 		    header('Content-Description: File Transfer');
-		    header('Content-Type: application/octet-stream');
+		    header('Content-Type: '.$data->mime);
 		    header('Content-Disposition: attachment; filename="'.basename($name).".".$data->extension.'"');
 		    header('Expires: 0');
 		    header('Cache-Control: must-revalidate');
 		    header('Pragma: public');
 		    header('Content-Length: ' . filesize($file));
+		    readfile($file);
+		    exit;
+		}
+	}
+	return response()->json(ApiResponse::NotFound("Berkas tidak ditemukan!"));
+});
+
+$router->get('/view/{id}', function (Request $request, $id, $name = null) use ($router) {
+	$data = DB::table('files')->select("*")->where("id", $id)->first();
+
+	if(!empty($data))
+	{
+		$file = "./files/".$data->id.".".$data->extension;
+
+		if(file_exists($file))
+		{
+			header('Content-type: '.$data->mime);
+			header('Content-Disposition: inline; filename="'.basename($data->name).".".$data->extension.'"');
+			header('Content-Transfer-Encoding: binary');
+			header('Accept-Ranges: bytes');
 		    readfile($file);
 		    exit;
 		}
