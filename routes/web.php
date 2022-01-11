@@ -163,15 +163,22 @@ $router->get('/view/{id}', function (Request $request, $id, $name = null) use ($
 });
 
 
+// ROUTE UNTUK PERMANENKAN FILE
+// DATA YANG DITERIMA ADALAH ID, BISA SINGLE STRING ATAU ARRAY OF ID
 $router->post('/permanent', function (Request $request) use ($router) {
-	$data = DB::table('files')->select("*")->where("id", $request->input("id", ""))->first();
-
-	if(!empty($data))
+	$id = $request->input("id");
+	if(is_array($id))
 	{
-		DB::table("files")->where("id", $request->input("id", ""))->update(["expired_at" => null]);
-		return response()->json(ApiResponse::Ok("Berkas berhasil dipermanenkan!"));
+		foreach ($id as $value)
+		{
+			DB::table("files")->where("id", $value)->update(["expired_at" => null]);
+		}
 	}
-	return response()->json(ApiResponse::NotFound("Berkas tidak ditemukan!"));
+	else
+	{
+		DB::table("files")->where("id", $id)->update(["expired_at" => null]);
+	}
+	return response()->json(ApiResponse::Ok("Berkas berhasil dipermanenkan!"));
 });
 
 
